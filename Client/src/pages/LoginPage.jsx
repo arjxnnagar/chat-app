@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState } from 'react';
 import assets from '../assets/assets';
 import { AuthContext } from "../../context/AuthContext";
 
-function LoginPage(){
 
+function LoginPage(){
     const [currstate,setCurrState] =useState("Sign up")
     const [fullName,setFullName] = useState("")
     const [email,setEmail] = useState("")
@@ -11,24 +11,30 @@ function LoginPage(){
     const [bio,setBio] = useState("")
     const [isDataSubmitted,setIsDataSubmitted]=useState(false)
 
-
-    const {login} = useContext(AuthContext)
+    const {login , googleLogin} = useContext(AuthContext);
 
     function onSubmitHandler(event){
        event.preventDefault();
-
         if(currstate === "Sign up" && !isDataSubmitted){
             setIsDataSubmitted(true);
             return;
         }
-
         login(currstate === "Sign up" ? 'signup' : 'login' , {fullName,email,password,bio} );
     }
+    function handleGoogleLogin(){
+        window.open(`${import.meta.env.VITE_BACKEND_URL}/api/users/google`,"_self");
+    }   
 
     return (
             <div className='min-h-screen bg-cover bg-no-repeat  flex items-center justify-center'>
             <div className=" flex items-center justify-around gap-40 sm:justify-evenly max-sm:flex-col backdrop-blur-xs min-h-[500px]">
-                <img src={assets.logo} alt='logo' className='w-[min(30vw,220px)]'/>
+                <div className="flex flex-col items-center gap-4">
+                    <img src={assets.logo} alt='logo' className='w-[min(30vw,220px)]'/>
+                    <div onClick={handleGoogleLogin} className='flex items-center gap-7 bg-gradient-to-r from-[#57564F] to-[#DDDAD0] rounded-full p-6'>
+                    <p>Login with google</p>
+                    <img src={assets.google_icon} alt='google_icon' className='w-10 '/>
+                    </div>
+                    </div>
                 <form  onSubmit={onSubmitHandler} className="border-2 bg-white/8 text-black border-gray-500 p-6 flex flex-col gap-6 rounded-lg shadow-lg">
                     <h2 className="font-medium text-2xl flex justify-between items-center">
                         {currstate}
@@ -88,4 +94,4 @@ function LoginPage(){
         );
 }
 
-export default LoginPage
+export default LoginPage;

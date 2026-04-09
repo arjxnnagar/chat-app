@@ -10,7 +10,7 @@ export const SideBar = () =>{
     const {getUsers,users,selectedUser,setSelectedUser,unseenMessages,setUnseenMessages} = useContext(ChatContext);
 
     const navigate = useNavigate();
-    const [input,setInput] = useState(""); 
+    const [input,setInput] = useState("");
 
     const filteredUsers = input ? users.filter((user)=>user.fullName.toLowerCase().includes(input.toLowerCase())) : users;
 

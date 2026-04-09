@@ -13,6 +13,7 @@ import search_icon from './search_icon.png'
 import send_button from './send_button.png'
 import menu_icon from './menu_icon.png'
 import arrow_icon from './arrow_icon.png'
+import google_icon from './google_icon.png'
 import code from './code.svg'
 import pic1 from './pic1.png'
 import pic2 from './pic2.png'
@@ -33,7 +34,8 @@ const assets = {
     menu_icon,
     arrow_icon,
     code,
-    profile_martin
+    profile_martin,
+    google_icon
 }
 
 export default assets;

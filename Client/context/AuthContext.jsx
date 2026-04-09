@@ -48,7 +48,26 @@ export const AuthProvider = ({children})=>{
         }
     }
 
-    // Logout function and socket dissconnection
+    const googleLogin = async (credentialResponse) => {
+    try {
+      const { credential } = credentialResponse;
+      const { data } = await axios.post("/api/auth/google", { credential });
+      if (data.success) {
+        setAuthUser(data.user);
+        connectSocket(data.user);
+        axios.defaults.headers.common["token"] = data.token;
+        setToken(data.token);
+        localStorage.setItem("token", data.token);
+        toast.success("Google login successful");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+
+    // Logout function and socket disconnection
     const logOut = async(state,credentials)=>{
         localStorage.removeItem("token");
         setToken(null);
@@ -87,7 +106,7 @@ export const AuthProvider = ({children})=>{
         setSocket(newSocket);
 
         newSocket.on("getOnlineUsers", (userIds) =>{
-            setOnlineUsers(userIds)
+            setOnlineUsers(userIds);
         })
     }
 
@@ -95,7 +114,7 @@ export const AuthProvider = ({children})=>{
         if(token){
             axios.defaults.headers.common["token"] = token;
         }
-        checkAuth();;
+        checkAuth();
     },[])
 
     const value = {
@@ -105,7 +124,8 @@ export const AuthProvider = ({children})=>{
         socket,
         login,
         logOut,
-        updateProfile
+        updateProfile,
+        googleLogin
     }
 
 

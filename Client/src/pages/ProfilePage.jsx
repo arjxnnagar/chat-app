@@ -7,7 +7,6 @@ import { AuthContext } from '../../context/AuthContext';
 function ProfilePage(){
 
     const navigate = useNavigate();
-
     const { authUser,updateProfile } = useContext(AuthContext);
 
 

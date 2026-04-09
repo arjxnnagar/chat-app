@@ -20,7 +20,6 @@ export const io= new Server(server,{
 export const userSocketMap = {};
 
 // Socket.io connection handler
-
 io.on("connection",(socket)=>{
   const userId = socket.handshake.query.userId;
   console.log("User Connected",userId);
@@ -28,7 +27,6 @@ io.on("connection",(socket)=>{
   if(userId){
     userSocketMap[userId]=socket.id;
   }
-
   // Emit online user to all connected Client
   io.emit("getOnlineUsers",Object.keys(userSocketMap));
 
@@ -40,20 +38,23 @@ io.on("connection",(socket)=>{
 })
 
 
+
 // Middleware setup
 app.use(express.json({limit:"4Mb"}));
 app.use(cors());
+
 
 // Route setup
 app.use("/api/status",(req,res)=>res.send("Server is live"));
 app.use("/api/auth",userRouter);
 app.use("/api/messages",messageRouter);
 
+
 // Connect DB
 await connectDB();
 
 if(process.env.NODE_ENV !== "production"){
-    const PORT = process.env.PORT || 5000;
+    const PORT = process.env.PORT || 8000;
     server.listen(PORT, () => console.log(`Server is live on ${PORT}`));
 }
 
